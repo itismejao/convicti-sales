@@ -49,7 +49,7 @@ RUN mkdir -p /home/$USER/.composer && \
 #     &&  rm -rf /tmp/pear \
 #     &&  docker-php-ext-enable redis
 
-RUN apt-get update && apt install -y mariadb-client
+# RUN apt-get update && apt install -y mariadb-client
 
 # Set working directory
 WORKDIR /var/www

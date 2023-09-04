@@ -25,15 +25,23 @@ copy .env.example .env (windows)
 docker-compose up -d
 ```
 
+- instalar Dependencias:
+
+```
+docker-compose exec app composer i
+```
+
 - Rodar Migrations e Seeders: 
 ```
 docker-compose exec app php artisan migrate --seed
 ```
+Obs: Laravel oferece a opção de criar o banco caso não tenha criado "sales-control"
 
 - Rodar os testes: 
 ```
 docker-compose exec app php artisan test
 ```
+Obs: Os testes nesse caso estão sendo feitos no banco da aplicação mas num cenário real é necessário um .ev.testing para um ambiente de testes
 
 ### 📖 Documentação da API
 
