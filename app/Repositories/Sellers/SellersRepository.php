@@ -39,43 +39,4 @@ class SellersRepository
             ], 404);
         }
     }
-
-    protected function calcRoaming(float $latitude, float $longitude, int $seller_id)
-    {
-        $seller = Seller::find($seller_id);
-
-        $branchs = Branch::all();
-
-        $roaming = 0;
-
-        //Maior distancia entre duas coordenadas
-        $MinDistance = 40.000;
-
-        foreach ($branchs as $branch) {
-
-            $distance = CalculateDistances::byCoordinates($latitude, $longitude, $branch->latitude, $branch->longitude);
-
-            if($distance < $MinDistance){
-                $MinDistance = $distance;
-                $roaming = $branch->id;
-            }
-        }
-
-        if($roaming == $seller->branch_id){
-            $roaming = 0;
-        }
-
-        return $roaming;
-    }
-
-    protected function getSeller(int $user_id)
-    {
-        $seller = Seller::where('seller_id', $user_id)->first();
-
-        if($seller){
-            return $seller->id;
-        } else {
-            throw new \Exception("This user is not a Seller");
-        }
-    }
 }
