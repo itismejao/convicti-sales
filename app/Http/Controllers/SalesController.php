@@ -32,6 +32,10 @@ class SalesController extends Controller
     public function show($id)
     {
         $sale =  $this->service->show($id);
-        return  new SalesResource($sale);
+        if($sale){
+            return  new SalesResource($sale);
+        } else {
+            return response()->json(['message' => 'Venda não encontrada'], 404);
+        }    
     }
 }
