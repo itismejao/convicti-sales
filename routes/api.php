@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BranchsController;
 use App\Http\Controllers\SalesController;
+use App\Http\Controllers\SellersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,10 @@ Route::middleware('auth:sanctum')->group(function() {
 
     Route::prefix('branchs')->controller(BranchsController::class)->group(function () {
         Route::get('/map', [ BranchsController::class, 'map']);
+    });
+
+    Route::prefix('sellers')->controller(SellersController::class)->group(function () {
+        Route::get('/', [ SellersController::class, 'index']);
     });
 
     
