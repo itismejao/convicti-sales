@@ -126,26 +126,19 @@ class SalesRepository
     {
         $seller = Seller::find($seller_id);
 
-        $branchs = Branch::all();
+        //Depois de descobrir essa função do mysql, ficou fácil xD
+        $nearestBranch = Branch::selectRaw('id, ST_DISTANCE_SPHERE(POINT(longitude, latitude), POINT(?, ?)) AS distancia', [
+            $longitude, $latitude,
+        ])
+        ->orderBy('distancia', 'ASC')
+        ->limit(1)
+        ->get();
 
         $roaming = 0;
 
-        //Maior distancia entre duas coordenadas
-        $MinDistance = 40.000;
-
-        foreach ($branchs as $branch) {
-
-            $distance = CalculateDistances::byCoordinates($latitude, $longitude, $branch->latitude, $branch->longitude);
-
-            if($distance < $MinDistance){
-                $MinDistance = $distance;
-                $roaming = $branch->id;
-            }
-        }
-
-        if($roaming == $seller->branch_id){
-            $roaming = 0;
-        }
+        if($seller->branch_id != $nearestBranch[0]->id){
+            $roaming = $nearestBranch[0]->id;
+        };
 
         return $roaming;
     }
